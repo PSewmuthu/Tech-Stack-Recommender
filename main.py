@@ -26,3 +26,18 @@ class JobRecommender:
             skills_str = skills.lower().strip()
 
         return skills_str
+
+    def recommend_jobs(self, user_skills, top_n=5):
+        user_input = ", ".join([s.lower().replace(" ", "_")
+                               for s in user_skills])
+        user_vec = self.tfidf.transform([user_input])
+
+        # Calculate similarity
+        scores = cosine_similarity(user_vec, self.tfidf_matrix).flatten()
+        self.df['similarity_score'] = scores
+
+        # Get top N recommendations
+        recommendations = self.df.sort_values(by='similarity_score', ascending=False)[
+            ['job_title', 'category', 'similarity_score']].head(top_n)
+
+        return recommendations
