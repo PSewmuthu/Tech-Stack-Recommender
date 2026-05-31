@@ -14,3 +14,15 @@ class JobRecommender:
         # Initialize TF-IDF Vectorizer
         self.tfidf = TfidfVectorizer()
         self.tfidf_matrix = self.tfidf.fit_transform(self.df['clean_skills'])
+
+    def clean_skills(self, skills):
+        skills_str = ""
+        try:
+            # Convert string representation of list to an actual list
+            skill_list = ast.literal_eval(skills)
+            skills_str = ", ".join(
+                [str(s).lower().replace(" ", "_") for s in skill_list])
+        except:
+            skills_str = skills.lower().strip()
+
+        return skills_str
