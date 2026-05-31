@@ -41,3 +41,22 @@ class JobRecommender:
             ['job_title', 'category', 'similarity_score']].head(top_n)
 
         return recommendations
+
+
+if __name__ == "__main__":
+    # Initialize recommender system
+    recommender = JobRecommender('data/all_job_post.csv')
+
+    # Iteratively ask user for skills and recommend jobs
+    while True:
+        user_input = input(
+            "\n\nEnter your skills (comma separated) or 'exit' to quit: ")
+        if user_input.lower() == 'exit':
+            break
+
+        user_skills = [s.strip() for s in user_input.split(',')]
+        recommendations = recommender.recommend_jobs(user_skills)
+
+        print("\nTop Job Recommendations:")
+        print(recommendations.to_string(index=False))
+        print("\n")
