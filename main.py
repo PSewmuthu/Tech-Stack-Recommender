@@ -6,6 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class JobRecommender:
     def __init__(self, data_path):
+        print("Loading data and initializing recommender system...")
+
         self.df = pd.read_csv(data_path)
         # Clean skills column
         self.df['clean_skills'] = self.df['job_skill_set'].apply(
